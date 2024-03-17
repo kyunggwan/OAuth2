@@ -1,0 +1,12 @@
+-- Extension
+
+Extension Pack for java
+Lombok Annotations Support
+Gradle for javaSpring bookt extensions PackSpring boot snippets
+
+ES7 + React/Redux/React-Native snippets
+Color Highlight
+Better Comments
+
+MySQL(Weijan)
+ERD Editor
