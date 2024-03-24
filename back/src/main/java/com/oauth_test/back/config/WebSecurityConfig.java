@@ -23,7 +23,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import com.oauth_test.filter.JwtAuthenticationFilter;
+import com.oauth_test.back.filter.JwtAuthenticationFilter;
 
 import lombok.RequiredArgsConstructor;
 

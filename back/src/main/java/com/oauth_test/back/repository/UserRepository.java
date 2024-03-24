@@ -9,6 +9,8 @@ import java.util.List;
 @Repository
 public interface UserRepository extends JpaRepository<UserEntity, String> { // 엔티티와, PK의 타입 명시
 
+    boolean existsByUserId(String UserId);
+
     UserEntity findByUserId(String userId);
 
 }
