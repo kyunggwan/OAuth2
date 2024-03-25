@@ -21,6 +21,7 @@ public interface ResponseMessage {
     String NO_PERMISSION = "Do not have permission.";
 
     // Http Status 500
+    String MAIL_FAIL = "Mail send failed.";
     String DATABASE_ERROR = "Database error.";
 
 }

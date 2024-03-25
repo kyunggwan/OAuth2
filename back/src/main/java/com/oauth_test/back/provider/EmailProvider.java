@@ -28,6 +28,7 @@ public class EmailProvider {
             messageHelper.setText(htmlContent, true);
 
             javaMailSender.send(message);
+            
         } catch (Exception exception) {
             exception.printStackTrace();
             return false;
@@ -40,7 +41,7 @@ public class EmailProvider {
 
         String certificationMessage = "";
         certificationMessage += "<h1 style='text-align: center;'> [테스트 서비스] 인증메일</h1>";
-        certificationMessage += "<h1 style='text-align: center;'> dlswmdzhem: <strong style='font-size: 32px; letter-spacing: 8px:'>" + certificationNumber + "</strong></h3>";
+        certificationMessage += "<h1 style='text-align: center;'> 인증 코드: <strong style='font-size: 32px; letter-spacing: 8px:'>" + certificationNumber + "</strong></h3>";
         return certificationMessage;
     }
 }
