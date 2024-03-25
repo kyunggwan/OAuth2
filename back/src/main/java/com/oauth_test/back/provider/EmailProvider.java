@@ -13,7 +13,7 @@ public class EmailProvider {
 
     private final JavaMailSender javaMailSender;
 
-    private final String SUBJECT = "[테스트 서비스] 인증 메일입니다."; // 메일 제목
+    private final String SUBJECT = "[no-reply][테스트 서비스] 인증 메일입니다."; // 메일 제목
 
     public boolean sendCertificationMail(String email, String certificationNumber) {
 
@@ -23,12 +23,12 @@ public class EmailProvider {
 
             String htmlContent = getCertificationMessage(certificationNumber);
 
-            messageHelper.setTo(email);
-            messageHelper.setSubject(SUBJECT);
-            messageHelper.setText(htmlContent, true);
+            messageHelper.setTo(email); // 이메일 수신자
+            messageHelper.setSubject(SUBJECT); // 이메일 제목
+            messageHelper.setText(htmlContent, true); // 이메일 본문
 
-            javaMailSender.send(message);
-            
+            javaMailSender.send(message); // 이메일 전송
+
         } catch (Exception exception) {
             exception.printStackTrace();
             return false;
@@ -37,11 +37,12 @@ public class EmailProvider {
         return true;
     }
 
-    private String getCertificationMessage(String certificationNumber){
+    private String getCertificationMessage(String certificationNumber) {
 
         String certificationMessage = "";
         certificationMessage += "<h1 style='text-align: center;'> [테스트 서비스] 인증메일</h1>";
-        certificationMessage += "<h1 style='text-align: center;'> 인증 코드: <strong style='font-size: 32px; letter-spacing: 8px:'>" + certificationNumber + "</strong></h3>";
+        certificationMessage += "<h1 style='text-align: center;'> 인증 코드: <strong style='font-size: 32px; letter-spacing: 8px:'>"
+                + certificationNumber + "</strong></h3>";
         return certificationMessage;
     }
 }
