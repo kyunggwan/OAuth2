@@ -43,7 +43,7 @@ public class AuthController {
     @PostMapping("/check-certification")
     public ResponseEntity<? super CheckCertificationResponseDto> checkCertificatioEntity(
             @RequestBody @Valid CheckCertificationRequestDto requestBody) {
-        ResponseEntity<? super CheckCertificationResponseDto> response = authService.emailCertification(requestBody);
+        ResponseEntity<? super CheckCertificationResponseDto> response = authService.checkCertification(requestBody);
         return response;
     }
 
