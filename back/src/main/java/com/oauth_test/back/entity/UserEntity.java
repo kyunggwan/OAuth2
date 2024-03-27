@@ -1,5 +1,7 @@
 package com.oauth_test.back.entity;
 
+import com.oauth_test.back.dto.request.auth.SignUpRequestDto;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -21,4 +23,13 @@ public class UserEntity {
     private String email;
     private String type;
     private String role;
+
+    public UserEntity(SignUpRequestDto dto) {
+        this.userId = dto.getId();
+        this.password = dto.getPassword();
+        this.email = dto.getEmail();
+        this.type = "app";
+        this.role = "ROLE_USER";
+
+    }
 }

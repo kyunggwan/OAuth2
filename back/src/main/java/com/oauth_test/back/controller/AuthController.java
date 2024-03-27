@@ -8,6 +8,8 @@ import com.oauth_test.back.dto.request.auth.EmailCertificationRequestDto;
 import com.oauth_test.back.dto.response.auth.EmailCertificationResponseDto;
 import com.oauth_test.back.dto.request.auth.IdCheckRequestDto;
 import com.oauth_test.back.dto.response.auth.IdCheckResponseDto;
+import com.oauth_test.back.dto.request.auth.SignUpRequestDto;
+import com.oauth_test.back.dto.response.auth.SignUpResponseDto;
 import com.oauth_test.back.service.AuthService;
 
 import jakarta.validation.Valid;
@@ -34,17 +36,24 @@ public class AuthController {
     }
 
     @PostMapping("/email-certification")
-    public ResponseEntity<? super EmailCertificationResponseDto> emailCertificatioEntity(
+    public ResponseEntity<? super EmailCertificationResponseDto> emailCertificationEntity(
             @RequestBody @Valid EmailCertificationRequestDto requestBody) {
         ResponseEntity<? super EmailCertificationResponseDto> response = authService.emailCertification(requestBody);
         return response;
     }
 
     @PostMapping("/check-certification")
-    public ResponseEntity<? super CheckCertificationResponseDto> checkCertificatioEntity(
+    public ResponseEntity<? super CheckCertificationResponseDto> checkCertification(
             @RequestBody @Valid CheckCertificationRequestDto requestBody) {
-        ResponseEntity<? super CheckCertificationResponseDto> response = authService.emailCertification(requestBody);
+        ResponseEntity<? super CheckCertificationResponseDto> response = authService.checkCertification(requestBody);
         return response;
     }
 
+    @PostMapping("/sign-up")
+    public ResponseEntity<? super SignUpResponseDto> signUp(
+            @RequestBody @Valid SignUpRequestDto requestBody) {
+        ResponseEntity<? super SignUpResponseDto> response = authService.signUp(requestBody);
+        System.out.println("???fadsfafasdfasdfasdfasdfasdf?????");
+        return response;
+    }
 }
