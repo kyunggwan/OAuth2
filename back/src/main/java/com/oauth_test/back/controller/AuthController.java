@@ -2,6 +2,8 @@ package com.oauth_test.back.controller;
 
 import org.springframework.web.bind.annotation.RestController;
 
+import com.oauth_test.back.dto.request.auth.CheckCertificationRequestDto;
+import com.oauth_test.back.dto.response.auth.CheckCertificationResponseDto;
 import com.oauth_test.back.dto.request.auth.EmailCertificationRequestDto;
 import com.oauth_test.back.dto.response.auth.EmailCertificationResponseDto;
 import com.oauth_test.back.dto.request.auth.IdCheckRequestDto;
@@ -35,6 +37,13 @@ public class AuthController {
     public ResponseEntity<? super EmailCertificationResponseDto> emailCertificatioEntity(
             @RequestBody @Valid EmailCertificationRequestDto requestBody) {
         ResponseEntity<? super EmailCertificationResponseDto> response = authService.emailCertification(requestBody);
+        return response;
+    }
+
+    @PostMapping("/check-certification")
+    public ResponseEntity<? super CheckCertificationResponseDto> checkCertificatioEntity(
+            @RequestBody @Valid CheckCertificationRequestDto requestBody) {
+        ResponseEntity<? super CheckCertificationResponseDto> response = authService.emailCertification(requestBody);
         return response;
     }
 
