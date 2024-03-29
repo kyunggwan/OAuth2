@@ -1,3 +1,4 @@
+import "./style.css";
 import InputBox from "components/InputBox";
 import React, { KeyboardEvent, ChangeEvent, useRef, useState } from "react";
 
@@ -28,6 +29,11 @@ export default function SignUp() {
   const [emailMessage, setEmailMessage] = useState<string>("");
   const [certificationNumberMessage, setCertificationNumberMessage] =
     useState<string>("");
+
+  const signUpButtonClass =
+    id && password && passwordCheck && email && certificationNumber
+      ? "primary-button-lg"
+      : "disable-button-lg";
 
   const onIdChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
@@ -102,7 +108,7 @@ export default function SignUp() {
           <div className="sign-up-content-box">
             <div className="sign-up-content-sns-sign-in-box">
               <div className="sign-up-content-sign-in-title">
-                {"SNS 로그인"}
+                {"SNS 회원가입"}
               </div>
               <div className="sign-up-content-sign-in-button-box">
                 <div className="kakao-sign-in-button"></div>
@@ -175,7 +181,10 @@ export default function SignUp() {
               />
             </div>
             <div className="sign-up-content-button-box">
-              <div className="disable-button-lg full-width">{"회원가입"}</div>
+              {/* <div className={signUpButtonClass + 'full-width'}>{"회원가입"}</div> */}
+              <div className={`${signUpButtonClass} full-width`}>
+                {"회원가입"}
+              </div>
               <div className="text-link-lg full-width">{"로그인"}</div>
             </div>
           </div>

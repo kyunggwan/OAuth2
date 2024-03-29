@@ -2,7 +2,7 @@ import React, { ChangeEvent, useState } from "react";
 import "./App.css";
 
 import { Route, Routes } from "react-router-dom";
-import SignUp from "views/Authentication/SignUp/assets";
+import SignUp from "views/Authentication/SignUp";
 
 function App() {
   return (
