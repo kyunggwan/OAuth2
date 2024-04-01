@@ -1,6 +1,19 @@
+import {
+  IdCheckRequestDto,
+  emailCertificationRequestDto,
+} from "apis/request/auth";
 import "./style.css";
 import InputBox from "components/InputBox";
 import React, { KeyboardEvent, ChangeEvent, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { emailCertificationRequest, idCheckRequest } from "apis";
+import {
+  EmailCertificationResponseDto,
+  IdCheckResponseDto,
+} from "apis/response/auth";
+import { ResponseCode } from "types/enums";
+import ResponseDto from "apis/response/response.dto";
+import emailCertificationResponseDto from "apis/response/auth/email-certification.response.dto";
 
 export default function SignUp() {
   const idRef = useRef<HTMLInputElement | null>(null);
@@ -30,15 +43,43 @@ export default function SignUp() {
   const [certificationNumberMessage, setCertificationNumberMessage] =
     useState<string>("");
 
+  const [isIdCheck, setIsIdCheck] = useState<boolean>(false);
+
   const signUpButtonClass =
     id && password && passwordCheck && email && certificationNumber
       ? "primary-button-lg"
       : "disable-button-lg";
 
+  const emailPattern = /^[a-zA-Z0-9]*@([-.]?[a-zA-Z0-9])*\.[a-zA-Z]{2,4}$)/;
+
+  const navigate = useNavigate();
+
+  const idCheckResponse = (
+    responseBody: IdCheckResponseDto | ResponseDto | null
+  ) => {
+    if (!responseBody) return;
+    const { code } = responseBody;
+
+    if (code === ResponseCode.VALIDATION_FAIL) alert("아이디를 입력하세요");
+    if (code === ResponseCode.DUPLICATE_ID) {
+      setIdError(true);
+      setIdMessage("이미 사용중인 아이디입니다.");
+      setIsIdCheck(false);
+    }
+
+    if (code === ResponseCode.DATABASE_ERROR) alert("데이터베이스 오류입니다.");
+    if (code !== ResponseCode.SUCCESS) return;
+
+    setIdError(false);
+    setIdMessage("사용 가능한 아이디 입니다.");
+    setIsIdCheck(true);
+  };
+
   const onIdChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
     setId(value);
     setIdMessage("");
+    setIsIdCheck(false);
   };
 
   const onPasswordChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
@@ -69,8 +110,26 @@ export default function SignUp() {
     setCertificationNumberMessage("");
   };
 
-  const onIdButtonClickHandler = () => {};
-  const onEmailButtonClickHandler = () => {};
+  const onIdButtonClickHandler = () => {
+    if (!id) return;
+    const requestBody: IdCheckRequestDto = { id };
+    idCheckRequest(requestBody).then(idCheckResponse);
+  };
+
+  const onEmailButtonClickHandler = () => {
+    if (!id && !email) return;
+
+    const checkedEmail = !emailPattern.test(email);
+    if (!checkedEmail) {
+      setEmailError(true);
+      setEmailMessage("이메일 형식이 아닙니다.");
+      return;
+    }
+
+    const requestBody: emailCertificationRequestDto = { id, email };
+    emailCertificationRequest(requestBody).then(emailCertificationResponse);
+  };
+
   const onCertificationNumberButtonClickHandler = () => {};
 
   const onIdKeyDownHandler = (event: KeyboardEvent<HTMLInputElement>) => {
@@ -99,6 +158,13 @@ export default function SignUp() {
     if (event.key !== "Enter") return;
     onCertificationNumberButtonClickHandler();
   };
+
+  const onSignUpButtonClickHandler = () => {};
+
+  const onSignInButtonClickHandler = () => {
+    navigate("/auth/sign-in");
+  };
+
   return (
     <div id="sign-up-wrapper">
       <div className="sign-up-image"></div>
@@ -181,11 +247,18 @@ export default function SignUp() {
               />
             </div>
             <div className="sign-up-content-button-box">
-              {/* <div className={signUpButtonClass + 'full-width'}>{"회원가입"}</div> */}
-              <div className={`${signUpButtonClass} full-width`}>
+              <div
+                className={`${signUpButtonClass} full-width`}
+                onClick={onSignUpButtonClickHandler}
+              >
                 {"회원가입"}
               </div>
-              <div className="text-link-lg full-width">{"로그인"}</div>
+              <div
+                className="text-link-lg full-width"
+                onClick={onSignInButtonClickHandler}
+              >
+                {"로그인"}
+              </div>
             </div>
           </div>
         </div>
