@@ -1,4 +1,4 @@
 import IdCheckRequestDto from "./id-check.request.dto";
-import emailCertificationRequestDto from "./email-certification.request.dto";
+import EmailCertificationRequestDto from "./email-certification.request.dto";
 
-export type { IdCheckRequestDto, emailCertificationRequestDto };
+export type { IdCheckRequestDto, EmailCertificationRequestDto };

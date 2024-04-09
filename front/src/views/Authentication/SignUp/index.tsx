@@ -1,6 +1,6 @@
 import {
   IdCheckRequestDto,
-  emailCertificationRequestDto,
+  EmailCertificationRequestDto,
 } from "apis/request/auth";
 import "./style.css";
 import InputBox from "components/InputBox";
@@ -13,7 +13,7 @@ import {
 } from "apis/response/auth";
 import { ResponseCode } from "types/enums";
 import ResponseDto from "apis/response/response.dto";
-import emailCertificationResponseDto from "apis/response/auth/email-certification.response.dto";
+import { ResponseBody } from "types";
 
 export default function SignUp() {
   const idRef = useRef<HTMLInputElement | null>(null);
@@ -50,7 +50,7 @@ export default function SignUp() {
       ? "primary-button-lg"
       : "disable-button-lg";
 
-  const emailPattern = /^[a-zA-Z0-9]*@([-.]?[a-zA-Z0-9])*\.[a-zA-Z]{2,4}$)/;
+  const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
   const navigate = useNavigate();
 
@@ -73,6 +73,27 @@ export default function SignUp() {
     setIdError(false);
     setIdMessage("사용 가능한 아이디 입니다.");
     setIsIdCheck(true);
+  };
+
+  const emailCertificationResponse = (
+    responseBody: ResponseBody<EmailCertificationResponseDto>
+  ) => {
+    if (!responseBody) return;
+    const { code } = responseBody;
+
+    if (code === ResponseCode.VALIDATION_FAIL)
+      alert("아이디와 이메일을 모두 입력하세요");
+    if (code === ResponseCode.DUPLICATE_ID) {
+      setIdError(true);
+      setIdMessage("이미 사용중인 아이디입니다.");
+      setIsIdCheck(false);
+    }
+    if (code === ResponseCode.MAIL_FAIL) alert("이메일 전송에 실패했습니다.");
+    if (code === ResponseCode.DATABASE_ERROR) alert("데이터베이스 오류입니다.");
+    if (code !== ResponseCode.SUCCESS) return;
+
+    setEmailError(false);
+    setEmailMessage("인증번호가 전송되었습니다.");
   };
 
   const onIdChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
@@ -119,14 +140,14 @@ export default function SignUp() {
   const onEmailButtonClickHandler = () => {
     if (!id && !email) return;
 
-    const checkedEmail = !emailPattern.test(email);
+    const checkedEmail = emailPattern.test(email);
     if (!checkedEmail) {
       setEmailError(true);
       setEmailMessage("이메일 형식이 아닙니다.");
       return;
     }
 
-    const requestBody: emailCertificationRequestDto = { id, email };
+    const requestBody: EmailCertificationRequestDto = { id, email };
     emailCertificationRequest(requestBody).then(emailCertificationResponse);
   };
 

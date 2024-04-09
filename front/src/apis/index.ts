@@ -1,14 +1,13 @@
 import axios, { AxiosResponse } from "axios";
 import {
   IdCheckRequestDto,
-  emailCertificationRequestDto,
+  EmailCertificationRequestDto,
 } from "./request/auth";
 import {
   EmailCertificationResponseDto,
   IdCheckResponseDto,
 } from "./response/auth";
 import { ResponseDto } from "./response";
-import { error } from "console";
 
 /**
  * Response 템플릿 설정
@@ -42,20 +41,17 @@ export const idCheckRequest = async (requestBody: IdCheckRequestDto) => {
   const result = await axios
     .post(ID_CHECK_URL(), requestBody)
     .then(responseHandler<IdCheckResponseDto>)
-    .catch((error) => {
-      errorHandler;
-    });
+    .catch(errorHandler);
+
   return result;
 };
 
 export const emailCertificationRequest = async (
-  requestBody: emailCertificationRequestDto
+  requestBody: EmailCertificationRequestDto
 ) => {
   const result = await axios
     .post(EMAIL_CERTIFICATION_URL(), requestBody)
     .then(responseHandler<EmailCertificationResponseDto>)
-    .catch((error) => {
-      errorHandler;
-    });
+    .catch(errorHandler);
   return result;
 };
